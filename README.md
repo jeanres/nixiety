@@ -82,6 +82,56 @@ To add a GUI app: add its cask to `modules/homebrew/default.nix` (or its App Sto
 - zsh has autosuggestions (→ to accept) and syntax highlighting
 - Homebrew is on `PATH` via `~/.zprofile`
 
+## Neovim
+
+Config lives in `home/editor/neovim/` (`lua/config/*.lua`); plugins and language servers come from Nix. Tools a project provides through direnv (node, eslint, prettier, biome) take precedence over the Nix fallbacks. Files are formatted on save: biome if the project has a `biome.json`, otherwise prettierd; nixfmt for Nix, stylua for Lua.
+
+Leader is `space`.
+
+| Key                          | Action                                   |
+| ---------------------------- | ---------------------------------------- |
+| **Find**                     |                                          |
+| `<leader><space>`            | Find files                               |
+| `<leader>/`                  | Search project (live grep)               |
+| `<leader>ff` / `<leader>fg`  | Files / grep                             |
+| `<leader>fw`                 | Grep word under cursor                   |
+| `<leader>fb`                 | Buffers                                  |
+| `<leader>fr`                 | Recent files                             |
+| `<leader>fs`                 | Symbols in file                          |
+| `<leader>fd`                 | Diagnostics                              |
+| `<leader>fh`                 | Help                                     |
+| `-`                          | Open parent directory (oil)              |
+| **Code** (when an LSP is attached) |                                    |
+| `gd` / `gD` / `gy`           | Definition / declaration / type definition |
+| `K`                          | Hover docs                               |
+| `grr` / `gri`                | References / implementation (built in)   |
+| `<leader>fR`                 | References in Telescope                  |
+| `<leader>ca` (or `gra`)      | Code action                              |
+| `<leader>cr` (or `grn`)      | Rename                                   |
+| `<leader>cf`                 | Format                                   |
+| `<leader>ce`                 | ESLint fix all                           |
+| `<leader>cd`                 | Line diagnostics                         |
+| `]d` / `[d`                  | Next / previous diagnostic (built in)    |
+| **Completion**               |                                          |
+| `<C-space>`                  | Open menu                                |
+| `<C-n>` / `<C-p>`            | Next / previous item                     |
+| `<C-y>`                      | Accept                                   |
+| **Git**                      |                                          |
+| `<leader>gg`                 | Lazygit                                  |
+| `]h` / `[h`                  | Next / previous hunk                     |
+| `<leader>gp`                 | Preview hunk                             |
+| `<leader>gr`                 | Reset hunk                               |
+| `<leader>gb`                 | Blame line                               |
+| **Editing**                  |                                          |
+| `sa` / `sd` / `sr`           | Add / delete / replace surrounding       |
+| `J` / `K` (visual)           | Move selection down / up                 |
+| **Windows and buffers**      |                                          |
+| `<C-h/j/k/l>`                | Move between splits                      |
+| `<S-h>` / `<S-l>`            | Previous / next buffer                   |
+| `<leader>bd`                 | Delete buffer                            |
+| `<leader>w` / `<leader>q`    | Save / quit                              |
+| `<Esc>`                      | Clear search highlight                   |
+
 ## Theme
 
 Catppuccin Mocha, set by hand per app:
