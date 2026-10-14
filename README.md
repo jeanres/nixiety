@@ -35,19 +35,33 @@ After that, sign in to the App Store so Mac App Store apps can install.
 ## Layout
 
 ```
-flake.nix                 entry point
-Makefile
-systems/development/      nix-darwin system settings (Nix/Lix, GC, caps lock → escape)
-modules/homebrew/         Homebrew casks and Mac App Store apps
-home/                     Home Manager, one folder per program
-  default.nix             imports every program below
-  aerospace/              tiling window manager
-  jankyborders/           window borders
-  macos/                  macOS defaults (desktop stacks)
-  wezterm/  zsh/  starship/  neovim/
-  git/  delta/  lazygit/
-  eza/  bat/  fd/  ripgrep/  fzf/  jq/  zoxide/  direnv/
-  claude-code/
+flake.nix           entry point: inputs and the darwin configuration
+Makefile            install / switch / update shortcuts
+systems/
+└── development/    Nix (Lix), garbage collection, caps lock to escape
+modules/
+└── homebrew/       Homebrew casks and Mac App Store apps
+home/               Home Manager, one folder per program
+├── default.nix     imports every folder below
+├── aerospace/      tiling window manager, workspaces, keybindings
+├── jankyborders/   window borders
+├── macos/          macOS defaults (desktop stacks)
+├── wezterm/        terminal
+├── zsh/            shell, plugins, Homebrew on PATH
+├── starship/       prompt
+├── neovim/         editor
+├── git/            git identity and defaults
+├── delta/          git diff pager
+├── lazygit/        git TUI
+├── eza/            ls replacement
+├── bat/            cat with highlighting
+├── fd/             find replacement
+├── ripgrep/        grep replacement
+├── fzf/            fuzzy finder
+├── jq/             JSON tool
+├── zoxide/         cd replacement
+├── direnv/         per-directory environments
+└── claude-code/    Claude Code
 ```
 
 To add a program: create `home/<name>/default.nix` and add `./<name>` to `home/default.nix`.
@@ -127,9 +141,6 @@ Apps open, or focus (jumping to their workspace) if already running.
 | `alt-shift-,`       | System Settings             |
 | `alt-shift-/`       | Passwords                   |
 | `alt-shift-f`       | Finder (home)               |
-| `alt-shift-a`       | claude.ai                   |
-| `alt-shift-y`       | YouTube                     |
-| `alt-shift-x`       | x.com                       |
 
 ## Troubleshooting
 

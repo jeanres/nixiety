@@ -5,7 +5,6 @@ let
 
   # Launch an app by bundle ID, or focus it (and jump to its workspace) if running
   app = id: "exec-and-forget open -b ${id}";
-  url = u: "exec-and-forget open ${u}";
 
   # One kind of app per workspace. Workspace => list of bundle IDs.
   # Find an app's bundle ID with: osascript -e 'id of app "AppName"'
@@ -158,11 +157,6 @@ in
         alt-shift-comma = app "com.apple.systempreferences";
         alt-shift-slash = app "com.apple.Passwords";
         alt-shift-f = "exec-and-forget open ~";
-
-        # Web
-        alt-shift-a = url "https://claude.ai";
-        alt-shift-y = url "https://youtube.com";
-        alt-shift-x = url "https://x.com";
       }
       // lib.listToAttrs (
         lib.concatMap (ws: [
