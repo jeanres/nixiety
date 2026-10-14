@@ -51,12 +51,6 @@
         ];
       };
 
-      # nix flake init -t ~/.nixiety#node
-      templates.node = {
-        path = ./templates/node;
-        description = "Node + pnpm dev shell with direnv";
-      };
-
       # nix fmt: format every .nix file with nixfmt
       formatter.${system} = nixpkgs.legacyPackages.${system}.nixfmt-tree;
     };

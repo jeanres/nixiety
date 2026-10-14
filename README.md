@@ -1,5 +1,7 @@
 # nixiety
 
+[![check](https://github.com/jeanres/nixiety/actions/workflows/check.yml/badge.svg)](https://github.com/jeanres/nixiety/actions/workflows/check.yml)
+
 macOS setup for `Jeanres-MacBook-Pro`, managed with [nix-darwin](https://github.com/nix-darwin/nix-darwin), [Home Manager](https://github.com/nix-community/home-manager) and [Lix](https://lix.systems).
 
 ## Getting started
@@ -33,6 +35,8 @@ After that, sign in to the App Store so Mac App Store apps can install.
 | `nix fmt`      | Format every `.nix` file with nixfmt           |
 | `make`         | List targets                                   |
 
+CI (`.github/workflows/check.yml`) runs on every push and PR to `main`: `nix fmt -- --ci`, `nix flake check`, and a full build of the system on an Apple Silicon runner. Run `nix fmt` before pushing.
+
 ## Layout
 
 ```
@@ -43,8 +47,6 @@ hosts/
 modules/
 ├── homebrew/           Homebrew casks and Mac App Store apps
 └── macos/              macOS settings (Dock, Spaces, keyboard, Finder, ...)
-templates/
-└── node/               nix flake init -t ~/.nixiety#node
 home/                   Home Manager, grouped by type
 ├── default.nix         imports each group
 ├── desktop/
@@ -157,16 +159,6 @@ Set in `home/git/git`.
 - Aliases: `st`, `co`, `sw`, `br`, `ci`, `amend`, `undo` (soft reset last commit), `lg` (graph), `last`
 - Global ignore: `.DS_Store`, `.direnv/`, `*.swp`, `*~`
 - Diffs go through delta; `lazygit` (or `<leader>gg` in Neovim) for a TUI
-
-## New projects
-
-```sh
-mkdir my-app && cd my-app
-nix flake init -t ~/.nixiety#node
-direnv allow
-```
-
-Gives a dev shell with Node 24 and pnpm, an `.envrc` (`use flake`) and a `.gitignore`. Neovim picks up the project's tools through direnv.
 
 ## macOS settings
 
