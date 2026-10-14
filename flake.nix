@@ -1,41 +1,57 @@
 {
-  description = "Example nix-darwin system flake";
+  description = "nix-darwin + Home Manager config for Jeanre's MacBook Pro";
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
-    nix-darwin.url = "github:nix-darwin/nix-darwin/master";
-    nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
- home-manager = {
+    nix-darwin = {
+      url = "github:nix-darwin/nix-darwin/master";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
 
-  outputs = inputs@{ self, nix-darwin, nixpkgs, home-manager }:
-  {
-    # Build darwin flake using:
-    # $ darwin-rebuild build --flake .#Jeanres-MacBook-Pro
-    darwinConfigurations."Jeanres-MacBook-Pro" = nix-darwin.lib.darwinSystem {
-        system = "aarch64-darwin";
-
-      modules = [ 
-./modules/homebrew
-./systems/development
- {
-            users.users."jeanreswanepoel".home = "/Users/jeanreswanepoel";
+  outputs =
+    {
+      nixpkgs,
+      nix-darwin,
+      home-manager,
+      ...
+    }:
+    let
+      system = "aarch64-darwin";
+      host = "Jeanres-MacBook-Pro";
+      user = "jeanreswanepoel";
+    in
+    {
+      # darwin-rebuild switch --flake .#Jeanres-MacBook-Pro (or: make switch)
+      darwinConfigurations.${host} = nix-darwin.lib.darwinSystem {
+        inherit system;
+        modules = [
+          ./hosts/macbook-pro
+          ./modules/homebrew
+          ./modules/macos
+          {
+            system.primaryUser = user;
+            users.users.${user}.home = "/Users/${user}";
           }
           home-manager.darwinModules.home-manager
           {
-            home-manager.useGlobalPkgs = true;
-            home-manager.useUserPackages = true;
-            home-manager.users."jeanreswanepoel" =
-              { pkgs, ... }:
-              {
+            home-manager = {
+              useGlobalPkgs = true;
+              useUserPackages = true;
+              users.${user} = {
                 imports = [ ./home ];
                 home.stateVersion = "26.11";
               };
+            };
           }
- ];
+        ];
+      };
+
+      # nix fmt: format every .nix file with nixfmt
+      formatter.${system} = nixpkgs.legacyPackages.${system}.nixfmt-tree;
     };
-  };
 }

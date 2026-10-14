@@ -13,18 +13,14 @@
     ];
 
     casks = [
-	"bambu-studio"
-	"slack"
-	"raspberry-pi-imager"
+      "bambu-studio"
+      "slack"
+      "raspberry-pi-imager"
     ];
 
     # Mac App Store apps (installed via mas; you must be signed in to the App Store)
     masApps = {
       "Vimlike" = 1584519802;
     };
-  };
-
-  system = {
-    primaryUser = "jeanreswanepoel";
   };
 }

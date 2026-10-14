@@ -1,11 +1,11 @@
 { pkgs, ... }:
-
 {
   nix = {
     package = pkgs.lixPackageSets.stable.lix;
-    extraOptions = ''
-      experimental-features = nix-command flakes
-    '';
+    settings.experimental-features = [
+      "nix-command"
+      "flakes"
+    ];
     gc = {
       automatic = true;
       interval = {
@@ -15,16 +15,15 @@
       };
       options = "--delete-older-than 30d";
     };
+    # Deduplicate identical files in the store
+    optimise.automatic = true;
   };
-
 
   programs.zsh.enable = true;
 
-  system = {
-    keyboard = {
-      enableKeyMapping = true;
-      remapCapsLockToEscape = true;
-    };
+  system.keyboard = {
+    enableKeyMapping = true;
+    remapCapsLockToEscape = true;
   };
 
   nixpkgs.config.allowUnfree = true;

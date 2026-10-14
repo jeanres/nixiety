@@ -30,6 +30,7 @@ After that, sign in to the App Store so Mac App Store apps can install.
 | `make update`  | Update flake inputs, then switch               |
 | `make check`   | Run `nix flake check`                          |
 | `make gc`      | Delete generations older than 30 days          |
+| `nix fmt`      | Format every `.nix` file with nixfmt           |
 | `make`         | List targets                                   |
 
 ## Layout
@@ -37,16 +38,17 @@ After that, sign in to the App Store so Mac App Store apps can install.
 ```
 flake.nix               entry point: inputs and the darwin configuration
 Makefile                install / switch / update shortcuts
-systems/
-└── development/        Nix (Lix), garbage collection, caps lock to escape
+hosts/
+└── macbook-pro/        Nix (Lix), GC, store optimisation, caps lock to escape
 modules/
-└── homebrew/           Homebrew casks and Mac App Store apps
+├── homebrew/           Homebrew casks and Mac App Store apps
+└── macos/              macOS settings (Dock, Spaces, keyboard, Finder, ...)
 home/                   Home Manager, grouped by type
 ├── default.nix         imports each group
 ├── desktop/
 │   ├── aerospace/      tiling window manager, workspaces, keybindings
 │   ├── jankyborders/   window borders
-│   └── macos/          macOS defaults (desktop stacks)
+│   └── macos/          desktop stacks, screenshots folder
 ├── terminal/
 │   ├── wezterm/        terminal
 │   ├── zsh/            shell, plugins, Homebrew on PATH
@@ -81,10 +83,13 @@ To add a GUI app: add its cask to `modules/homebrew/default.nix` (or its App Sto
 - git diffs go through delta
 - zsh has autosuggestions (→ to accept) and syntax highlighting
 - Homebrew is on `PATH` via `~/.zprofile`
+- direnv uses nix-direnv, so `use flake` environments are cached
 
 ## Neovim
 
 Config lives in `home/editor/neovim/` (`lua/config/*.lua`); plugins and language servers come from Nix. Tools a project provides through direnv (node, eslint, prettier, biome) take precedence over the Nix fallbacks. Files are formatted on save: biome if the project has a `biome.json`, otherwise prettierd; nixfmt for Nix, stylua for Lua.
+
+nixd reads this repo's flake, so editing it completes nix-darwin and Home Manager options as well as packages.
 
 Leader is `space`.
 
@@ -131,6 +136,20 @@ Leader is `space`.
 | `<leader>bd`                 | Delete buffer                            |
 | `<leader>w` / `<leader>q`    | Save / quit                              |
 | `<Esc>`                      | Clear search highlight                   |
+
+## macOS settings
+
+Set in `modules/macos` (nix-darwin writes them one key at a time, so nothing else in those domains is touched). Some need a log out and back in.
+
+- Spaces: "Displays have separate Spaces" off, and Mission Control groups windows by app (both recommended by AeroSpace)
+- Dock auto-hides
+- Fast key repeat; holding a key repeats it instead of showing the accent popup
+- Tap to click
+- Finder shows hidden files, all extensions and the path bar
+- Screenshots go to `~/Pictures/Screenshots`
+- Desktop uses Stacks (set from `home/desktop/macos`)
+
+Avoid Home Manager's `targets.darwin.defaults` for these: it imports a whole domain at once, which wipes any keys you didn't list (e.g. pinned Dock apps).
 
 ## Theme
 

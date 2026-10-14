@@ -11,9 +11,22 @@ vim.lsp.config("lua_ls", {
   },
 })
 
+-- Point nixd at this repo's flake so it completes nix-darwin and
+-- Home Manager options, not just packages
+local flake = '(builtins.getFlake "' .. vim.fn.expand("~/.nixiety") .. '")'
+local darwin = flake .. '.darwinConfigurations."Jeanres-MacBook-Pro"'
 vim.lsp.config("nixd", {
   settings = {
-    nixd = { formatting = { command = { "nixfmt" } } },
+    nixd = {
+      nixpkgs = { expr = "import " .. flake .. ".inputs.nixpkgs { }" },
+      formatting = { command = { "nixfmt" } },
+      options = {
+        ["nix-darwin"] = { expr = darwin .. ".options" },
+        ["home-manager"] = {
+          expr = darwin .. ".options.home-manager.users.type.getSubOptions [ ]",
+        },
+      },
+    },
   },
 })
 

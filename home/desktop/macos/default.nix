@@ -10,4 +10,9 @@
       run /usr/bin/killall Finder || true
     fi
   '';
+
+  # Screenshots are saved here (see modules/macos)
+  home.activation.screenshotsDir = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+    run mkdir -p "$HOME/Pictures/Screenshots"
+  '';
 }
