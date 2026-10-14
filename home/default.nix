@@ -1,11 +1,9 @@
 { ... }:
 {
+  # Same layout as Home Manager's own modules
   imports = [
-    ./desktop # window manager, borders, macOS defaults
-    ./terminal # terminal emulator, shell, prompt
-    ./editor
-    ./git
-    ./cli # command-line tools
-    ./ai
+    ./programs # programs.*
+    ./services # services.*
+    ./targets/darwin # macOS-only settings
   ];
 }

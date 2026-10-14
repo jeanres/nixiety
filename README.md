@@ -40,43 +40,40 @@ CI (`.github/workflows/check.yml`) runs on every push and PR to `main`: `nix fmt
 ## Layout
 
 ```
-flake.nix               entry point: inputs and the darwin configuration
-Makefile                install / switch / update shortcuts
+flake.nix             entry point: inputs and the darwin configuration
+Makefile              install / switch / update shortcuts
 hosts/
-└── macbook-pro/        Nix (Lix), GC, store optimisation, caps lock to escape
+└── macbook-pro/      Nix (Lix), GC, store optimisation, caps lock to escape
 modules/
-├── homebrew/           Homebrew casks and Mac App Store apps
-└── macos/              macOS settings (Dock, Spaces, keyboard, Finder, ...)
-home/                   Home Manager, grouped by type
-├── default.nix         imports each group
-├── desktop/
-│   ├── aerospace/      tiling window manager, workspaces, keybindings
-│   ├── jankyborders/   window borders
-│   └── macos/          desktop stacks, screenshots folder
-├── terminal/
-│   ├── wezterm/        terminal
-│   ├── zsh/            shell, plugins, Homebrew on PATH
-│   └── starship/       prompt
-├── editor/
-│   └── neovim/         editor
-├── git/
-│   ├── git/            git identity and defaults
-│   ├── delta/          git diff pager
-│   └── lazygit/        git TUI
-├── cli/
-│   ├── eza/            ls replacement
-│   ├── bat/            cat with highlighting
-│   ├── fd/             find replacement
-│   ├── ripgrep/        grep replacement
-│   ├── fzf/            fuzzy finder
-│   ├── jq/             JSON tool
-│   ├── zoxide/         cd replacement
-│   └── direnv/         per-directory environments
-└── ai/
-    └── claude-code/    Claude Code
+├── homebrew/         Homebrew casks and Mac App Store apps
+└── macos/            macOS settings (Dock, Spaces, keyboard, Finder, ...)
+home/                 Home Manager, laid out like its own modules
+├── default.nix       imports the three folders below
+├── programs/         programs.* (one file per program)
+│                     ├── default.nix        imports every program
+│                     ├── aerospace.nix      tiling window manager, workspaces, keybindings
+│                     ├── wezterm.nix        terminal
+│                     ├── zsh.nix            shell, plugins, Homebrew on PATH
+│                     ├── starship.nix       prompt
+│                     ├── neovim/            editor: default.nix + lua/config/*.lua
+│                     ├── git.nix            identity, defaults, signing, global ignore
+│                     ├── delta.nix          git diff pager
+│                     ├── lazygit.nix        git TUI
+│                     ├── eza.nix            ls replacement
+│                     ├── bat.nix            cat with highlighting
+│                     ├── fd.nix             find replacement
+│                     ├── ripgrep.nix        grep replacement
+│                     ├── fzf.nix            fuzzy finder
+│                     ├── jq.nix             JSON tool
+│                     ├── zoxide.nix         cd replacement
+│                     ├── direnv.nix         per-directory environments (nix-direnv)
+│                     └── claude-code.nix    Claude Code
+├── services/         services.*
+│                     └── jankyborders.nix   window borders
+└── targets/darwin/   macOS-only: desktop stacks, screenshots folder
 ```
 
-To add a program: create `home/<group>/<name>/default.nix` and add `./<name>` to `home/<group>/default.nix`. A new group also needs adding to `home/default.nix`.
+To add a program: create `home/programs/<name>.nix` and add it to `home/programs/default.nix` (a background service goes in `home/services/` the same way).
 
 To add a GUI app: add its cask to `modules/homebrew/default.nix` (or its App Store ID to `masApps`).
 
@@ -90,7 +87,7 @@ To add a GUI app: add its cask to `modules/homebrew/default.nix` (or its App Sto
 
 ## Neovim
 
-Config lives in `home/editor/neovim/` (`lua/config/*.lua`); plugins and language servers come from Nix. Tools a project provides through direnv (node, eslint, prettier, biome) take precedence over the Nix fallbacks. Files are formatted on save: biome if the project has a `biome.json`, otherwise prettierd; nixfmt for Nix, stylua for Lua.
+Config lives in `home/programs/neovim/` (`lua/config/*.lua`); plugins and language servers come from Nix. Tools a project provides through direnv (node, eslint, prettier, biome) take precedence over the Nix fallbacks. Files are formatted on save: biome if the project has a `biome.json`, otherwise prettierd; nixfmt for Nix, stylua for Lua.
 
 nixd reads this repo's flake, so editing it completes nix-darwin and Home Manager options as well as packages.
 
@@ -152,7 +149,7 @@ Leader is `space`.
 
 ## Git
 
-Set in `home/git/git`.
+Set in `home/programs/git.nix`.
 
 - Commits and tags are signed with `~/.ssh/id_rsa.pub`. Add that key on GitHub as a **Signing key** (Settings → SSH and GPG keys) so commits show as Verified; `git log --show-signature` checks them locally.
 - Defaults: `main` branch, `pull --rebase`, auto-stash on rebase, `push` sets upstream automatically, prune on fetch, `rerere`, histogram diffs, zdiff3 conflicts, branches sorted by recent commit
@@ -170,7 +167,7 @@ Set in `modules/macos` (nix-darwin writes them one key at a time, so nothing els
 - Tap to click
 - Finder shows hidden files, all extensions and the path bar
 - Screenshots go to `~/Pictures/Screenshots`
-- Desktop uses Stacks (set from `home/desktop/macos`)
+- Desktop uses Stacks (set from `home/targets/darwin`)
 
 Avoid Home Manager's `targets.darwin.defaults` for these: it imports a whole domain at once, which wipes any keys you didn't list (e.g. pinned Dock apps).
 

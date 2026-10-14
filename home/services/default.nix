@@ -1,6 +1,6 @@
 { ... }:
 {
   imports = [
-    ./claude-code
+    ./jankyborders.nix
   ];
 }

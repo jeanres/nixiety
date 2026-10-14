@@ -1,8 +1,0 @@
-{ ... }:
-{
-  imports = [
-    ./wezterm
-    ./zsh
-    ./starship
-  ];
-}
