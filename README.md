@@ -7,7 +7,7 @@ macOS setup for `Jeanres-MacBook-Pro`, managed with [nix-darwin](https://github.
 On a fresh Mac:
 
 ```sh
-git clone <this repo> ~/.nixiety
+git clone https://github.com/jeanres/nixiety.git ~/.nixiety
 cd ~/.nixiety
 make install
 ```
