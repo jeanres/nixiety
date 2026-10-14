@@ -33,6 +33,10 @@
       gitsigns-nvim
       snacks-nvim # lazygit float
 
+      # Diagnostics panel and session restore
+      trouble-nvim
+      persistence-nvim
+
       # Editing
       mini-nvim
 

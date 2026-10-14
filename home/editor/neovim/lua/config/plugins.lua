@@ -14,7 +14,7 @@ require("catppuccin").setup({
 vim.cmd.colorscheme("catppuccin")
 
 require("lualine").setup({
-  options = { theme = "catppuccin", globalstatus = true },
+  options = { theme = "catppuccin-nvim", globalstatus = true },
 })
 
 -- Telescope
@@ -110,6 +110,21 @@ require("gitsigns").setup({
 local snacks = require("snacks")
 snacks.setup({ lazygit = { enabled = true } })
 map("n", "<leader>gg", function() snacks.lazygit() end, { desc = "Lazygit" })
+
+-- Diagnostics / references panel
+require("trouble").setup({})
+map("n", "<leader>xx", "<cmd>Trouble diagnostics toggle<cr>", { desc = "Project diagnostics" })
+map("n", "<leader>xb", "<cmd>Trouble diagnostics toggle filter.buf=0<cr>", { desc = "Buffer diagnostics" })
+map("n", "<leader>xs", "<cmd>Trouble symbols toggle<cr>", { desc = "Symbols" })
+map("n", "<leader>xr", "<cmd>Trouble lsp toggle<cr>", { desc = "LSP references/definitions" })
+map("n", "<leader>xq", "<cmd>Trouble qflist toggle<cr>", { desc = "Quickfix list" })
+
+-- Sessions: saved per directory on exit
+local persistence = require("persistence")
+persistence.setup({})
+map("n", "<leader>ss", function() persistence.load() end, { desc = "Restore session for this dir" })
+map("n", "<leader>sl", function() persistence.load({ last = true }) end, { desc = "Restore last session" })
+map("n", "<leader>sd", function() persistence.stop() end, { desc = "Don't save this session" })
 
 -- Editing helpers
 require("mini.pairs").setup()

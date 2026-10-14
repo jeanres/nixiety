@@ -43,6 +43,8 @@ hosts/
 modules/
 ├── homebrew/           Homebrew casks and Mac App Store apps
 └── macos/              macOS settings (Dock, Spaces, keyboard, Finder, ...)
+templates/
+└── node/               nix flake init -t ~/.nixiety#node
 home/                   Home Manager, grouped by type
 ├── default.nix         imports each group
 ├── desktop/
@@ -80,7 +82,6 @@ To add a GUI app: add its cask to `modules/homebrew/default.nix` (or its App Sto
 
 - `ls`, `ll`, `la`, `lla`, `lt` → eza
 - `cd` → zoxide (`cd proj` jumps to a frequently used dir, `cdi` picks interactively)
-- git diffs go through delta
 - zsh has autosuggestions (→ to accept) and syntax highlighting
 - Homebrew is on `PATH` via `~/.zprofile`
 - direnv uses nix-direnv, so `use flake` environments are cached
@@ -127,6 +128,16 @@ Leader is `space`.
 | `<leader>gp`                 | Preview hunk                             |
 | `<leader>gr`                 | Reset hunk                               |
 | `<leader>gb`                 | Blame line                               |
+| **Diagnostics panel** (trouble) |                                       |
+| `<leader>xx`                 | Project diagnostics                      |
+| `<leader>xb`                 | Buffer diagnostics                       |
+| `<leader>xs`                 | Symbols                                  |
+| `<leader>xr`                 | LSP references / definitions             |
+| `<leader>xq`                 | Quickfix list                            |
+| **Sessions** (saved per directory on exit) |                            |
+| `<leader>ss`                 | Restore session for this directory       |
+| `<leader>sl`                 | Restore last session                     |
+| `<leader>sd`                 | Don't save this session                  |
 | **Editing**                  |                                          |
 | `sa` / `sd` / `sr`           | Add / delete / replace surrounding       |
 | `J` / `K` (visual)           | Move selection down / up                 |
@@ -136,6 +147,26 @@ Leader is `space`.
 | `<leader>bd`                 | Delete buffer                            |
 | `<leader>w` / `<leader>q`    | Save / quit                              |
 | `<Esc>`                      | Clear search highlight                   |
+
+## Git
+
+Set in `home/git/git`.
+
+- Commits and tags are signed with `~/.ssh/id_rsa.pub`. Add that key on GitHub as a **Signing key** (Settings → SSH and GPG keys) so commits show as Verified; `git log --show-signature` checks them locally.
+- Defaults: `main` branch, `pull --rebase`, auto-stash on rebase, `push` sets upstream automatically, prune on fetch, `rerere`, histogram diffs, zdiff3 conflicts, branches sorted by recent commit
+- Aliases: `st`, `co`, `sw`, `br`, `ci`, `amend`, `undo` (soft reset last commit), `lg` (graph), `last`
+- Global ignore: `.DS_Store`, `.direnv/`, `*.swp`, `*~`
+- Diffs go through delta; `lazygit` (or `<leader>gg` in Neovim) for a TUI
+
+## New projects
+
+```sh
+mkdir my-app && cd my-app
+nix flake init -t ~/.nixiety#node
+direnv allow
+```
+
+Gives a dev shell with Node 24 and pnpm, an `.envrc` (`use flake`) and a `.gitignore`. Neovim picks up the project's tools through direnv.
 
 ## macOS settings
 
