@@ -1,0 +1,8 @@
+{ ... }:
+{
+  imports = [
+    ./aerospace
+    ./jankyborders
+    ./macos
+  ];
+}

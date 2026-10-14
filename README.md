@@ -35,36 +35,42 @@ After that, sign in to the App Store so Mac App Store apps can install.
 ## Layout
 
 ```
-flake.nix           entry point: inputs and the darwin configuration
-Makefile            install / switch / update shortcuts
+flake.nix               entry point: inputs and the darwin configuration
+Makefile                install / switch / update shortcuts
 systems/
-└── development/    Nix (Lix), garbage collection, caps lock to escape
+└── development/        Nix (Lix), garbage collection, caps lock to escape
 modules/
-└── homebrew/       Homebrew casks and Mac App Store apps
-home/               Home Manager, one folder per program
-├── default.nix     imports every folder below
-├── aerospace/      tiling window manager, workspaces, keybindings
-├── jankyborders/   window borders
-├── macos/          macOS defaults (desktop stacks)
-├── wezterm/        terminal
-├── zsh/            shell, plugins, Homebrew on PATH
-├── starship/       prompt
-├── neovim/         editor
-├── git/            git identity and defaults
-├── delta/          git diff pager
-├── lazygit/        git TUI
-├── eza/            ls replacement
-├── bat/            cat with highlighting
-├── fd/             find replacement
-├── ripgrep/        grep replacement
-├── fzf/            fuzzy finder
-├── jq/             JSON tool
-├── zoxide/         cd replacement
-├── direnv/         per-directory environments
-└── claude-code/    Claude Code
+└── homebrew/           Homebrew casks and Mac App Store apps
+home/                   Home Manager, grouped by type
+├── default.nix         imports each group
+├── desktop/
+│   ├── aerospace/      tiling window manager, workspaces, keybindings
+│   ├── jankyborders/   window borders
+│   └── macos/          macOS defaults (desktop stacks)
+├── terminal/
+│   ├── wezterm/        terminal
+│   ├── zsh/            shell, plugins, Homebrew on PATH
+│   └── starship/       prompt
+├── editor/
+│   └── neovim/         editor
+├── git/
+│   ├── git/            git identity and defaults
+│   ├── delta/          git diff pager
+│   └── lazygit/        git TUI
+├── cli/
+│   ├── eza/            ls replacement
+│   ├── bat/            cat with highlighting
+│   ├── fd/             find replacement
+│   ├── ripgrep/        grep replacement
+│   ├── fzf/            fuzzy finder
+│   ├── jq/             JSON tool
+│   ├── zoxide/         cd replacement
+│   └── direnv/         per-directory environments
+└── ai/
+    └── claude-code/    Claude Code
 ```
 
-To add a program: create `home/<name>/default.nix` and add `./<name>` to `home/default.nix`.
+To add a program: create `home/<group>/<name>/default.nix` and add `./<name>` to `home/<group>/default.nix`. A new group also needs adding to `home/default.nix`.
 
 To add a GUI app: add its cask to `modules/homebrew/default.nix` (or its App Store ID to `masApps`).
 

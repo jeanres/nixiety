@@ -1,24 +1,11 @@
 { ... }:
 {
   imports = [
-    ./aerospace
-    ./jankyborders
-    ./macos
-    ./wezterm
-    ./neovim
-    ./zsh
-    ./starship
-    ./fzf
-    ./bat
-    ./jq
-    ./direnv
-    ./eza
-    ./ripgrep
-    ./fd
+    ./desktop # window manager, borders, macOS defaults
+    ./terminal # terminal emulator, shell, prompt
+    ./editor
     ./git
-    ./delta
-    ./zoxide
-    ./lazygit
-    ./claude-code
+    ./cli # command-line tools
+    ./ai
   ];
 }
