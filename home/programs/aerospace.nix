@@ -24,6 +24,7 @@ let
     # 3: Chat
     "3" = [
       "com.tinyspeck.slackmacgap"
+      "net.whatsapp.WhatsApp"
       "com.apple.MobileSMS"
       "com.apple.FaceTime"
     ];
@@ -152,22 +153,19 @@ in
         alt-shift-a = "exec-and-forget ${kitty} ${posting}";
 
         # Apps: launch or focus
-        alt-shift-b = app "com.apple.Safari";
-        alt-shift-s = app "com.tinyspeck.slackmacgap";
-        alt-shift-g = app "com.apple.MobileSMS";
         alt-shift-e = app "com.apple.mail";
-        alt-shift-c = app "com.apple.iCal";
+        alt-shift-d = app "com.apple.iCal";
         alt-shift-o = app "com.apple.Notes";
-        alt-shift-m = app "com.apple.Music";
+        alt-shift-u = app "com.apple.Music";
         alt-shift-p = app "com.bambulab.bambu-studio";
         alt-shift-comma = app "com.apple.systempreferences";
         alt-shift-slash = app "com.apple.Passwords";
         alt-shift-f = "exec-and-forget open ~";
 
-        # Sites: go to the Safari tab if it's open, otherwise open a new one
-        alt-shift-x = site "://x.com" "https://x.com";
-        alt-shift-y = site "youtube.com" "https://www.youtube.com";
-        alt-shift-i = site "://github.com" "https://github.com";
+        # Browser and chat: alt-shift-b / alt-shift-c, then a key (see the
+        # modes below)
+        alt-shift-b = "mode browser";
+        alt-shift-c = "mode chat";
       }
       // lib.listToAttrs (
         lib.concatMap (ws: [
@@ -175,6 +173,49 @@ in
           (lib.nameValuePair "alt-shift-${ws}" "move-node-to-workspace ${ws}")
         ]) workspaces
       );
+
+      # Browser mode: b opens Safari; the others go to the site's tab if
+      # it's open, otherwise open it in a new tab. Esc cancels.
+      mode.browser.binding = {
+        b = [
+          "mode main"
+          (app "com.apple.Safari")
+        ];
+        x = [
+          "mode main"
+          (site "://x.com" "https://x.com")
+        ];
+        y = [
+          "mode main"
+          (site "youtube.com" "https://www.youtube.com")
+        ];
+        g = [
+          "mode main"
+          (site "://github.com" "https://github.com")
+        ];
+        m = [
+          "mode main"
+          (site "meet.google.com" "https://meet.google.com")
+        ];
+        esc = "mode main";
+      };
+
+      # Chat mode: s Slack, w WhatsApp, m Messages. Esc cancels.
+      mode.chat.binding = {
+        s = [
+          "mode main"
+          (app "com.tinyspeck.slackmacgap")
+        ];
+        w = [
+          "mode main"
+          (app "net.whatsapp.WhatsApp")
+        ];
+        m = [
+          "mode main"
+          (app "com.apple.MobileSMS")
+        ];
+        esc = "mode main";
+      };
 
       mode.service.binding = {
         esc = [

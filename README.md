@@ -230,7 +230,7 @@ Windows tile top to bottom by default (set for the LG DualUp). Each workspace ho
 | --- | ---------------- | --------------------------------------------- |
 | 1   | Terminal / code  | kitty, Terminal                               |
 | 2   | Browser          | Safari                                        |
-| 3   | Chat             | Slack, Messages, FaceTime                     |
+| 3   | Chat             | Slack, WhatsApp, Messages, FaceTime           |
 | 4   | Mail & calendar  | Mail, Calendar, Reminders, Contacts           |
 | 5   | Notes & docs     | Notes, Freeform, TextEdit, Preview            |
 | 6   | Media            | Music, Podcasts, TV, Photos, QuickTime        |
@@ -270,20 +270,40 @@ Apps open, or focus (jumping to their workspace) if already running.
 | `alt-enter`         | New kitty window            |
 | `alt-shift-n`       | Neovim in kitty             |
 | `alt-shift-a`       | Posting (HTTP API TUI)      |
-| `alt-shift-x`       | x.com (existing tab or new) |
-| `alt-shift-y`       | YouTube                     |
-| `alt-shift-i`       | GitHub                      |
-| `alt-shift-b`       | Safari                      |
-| `alt-shift-s`       | Slack                       |
-| `alt-shift-g`       | Messages                    |
+| `alt-shift-b`       | Browser mode (below)        |
+| `alt-shift-c`       | Chat mode (below)           |
 | `alt-shift-e`       | Mail                        |
-| `alt-shift-c`       | Calendar                    |
+| `alt-shift-d`       | Calendar                    |
 | `alt-shift-o`       | Notes                       |
-| `alt-shift-m`       | Music                       |
+| `alt-shift-u`       | Music                       |
 | `alt-shift-p`       | Bambu Studio                |
 | `alt-shift-,`       | System Settings             |
 | `alt-shift-/`       | Passwords                   |
 | `alt-shift-f`       | Finder (home)               |
+
+### Browser
+
+Press `alt-shift-b`, then one key. Sites go to their Safari tab if it's already open, otherwise open a new tab (`scripts/safari-tab.applescript`).
+
+| Then | Opens   |
+| ---- | ------- |
+| `b`  | Safari  |
+| `x`  | x.com   |
+| `y`  | YouTube |
+| `g`  | GitHub  |
+| `m`  | Google Meet |
+| `esc`| cancel  |
+
+### Chat
+
+Press `alt-shift-c`, then one key.
+
+| Then  | Opens    |
+| ----- | -------- |
+| `s`   | Slack    |
+| `w`   | WhatsApp |
+| `m`   | Messages |
+| `esc` | cancel   |
 
 ## Troubleshooting
 

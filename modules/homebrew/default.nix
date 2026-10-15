@@ -15,6 +15,7 @@
     casks = [
       "bambu-studio"
       "slack"
+      "whatsapp"
       "raspberry-pi-imager"
     ];
 
