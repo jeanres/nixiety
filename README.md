@@ -105,7 +105,7 @@ To add a GUI app: add its cask to `modules/homebrew/default.nix` (or its App Sto
 | Keyboard selection | tmux copy mode (`prefix [`) |
 | Open a link | `Cmd` click |
 
-Font: Atkinson Hyperlegible Mono, Medium, 15pt (designed for low vision; icons come from kitty's built-in Nerd Font symbols).
+Font: Atkinson Hyperlegible Mono, Medium, 16pt (designed for low vision; icons come from kitty's built-in Nerd Font symbols).
 
 Cursor: a peach block that fades in and out and leaves a trail when it jumps; lavender selection; slightly taller lines; padding around the edges.
 

@@ -12,7 +12,7 @@
       bold_font = "postscript_name=AtkinsonHyperlegibleMono-Bold";
       italic_font = "postscript_name=AtkinsonHyperlegibleMono-MediumItalic";
       bold_italic_font = "postscript_name=AtkinsonHyperlegibleMono-BoldItalic";
-      font_size = 15;
+      font_size = 16;
       modify_font = "cell_height 110%"; # a little more room between lines
       # No title bar; keep resize handles so AeroSpace can tile it
       hide_window_decorations = "titlebar-only";
