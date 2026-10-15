@@ -116,6 +116,8 @@ To add a Mac: create `hosts/<name>/default.nix` (its `networking` names) and `ho
 - `ls`, `ll`, `la`, `lla`, `lt` → eza
 - `cd` → zoxide (`cd proj` jumps to a frequently used dir, `cdi` picks interactively)
 - zsh has autosuggestions (→ to accept) and syntax highlighting
+- Vi mode: starts in insert mode, `Esc` for normal mode (no delay). The cursor blinks in insert mode and is steady in normal mode, like Neovim. `v` in normal mode opens the command in Neovim. Insert mode keeps `Ctrl-A`/`Ctrl-E` (start/end of line), `Ctrl-W`/`Ctrl-U` (delete word/to start) and fzf's `Ctrl-R`/`Ctrl-T`
+- Neovim is the editor everywhere: `EDITOR`/`VISUAL` are `nvim`, and `vi`, `vim`, `vimdiff` and `view` all open it (instead of macOS's Vim)
 - Homebrew is on `PATH` via `~/.zprofile`
 - direnv uses nix-direnv, so `use flake` environments are cached
 - `posting` is a TUI for HTTP APIs (`alt-shift-a`); `posting --collection <dir>` opens a project's saved requests

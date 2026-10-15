@@ -2,9 +2,12 @@
 {
   programs.neovim = {
     enable = lib.mkDefault true;
+    # EDITOR=nvim, and vi, vim and vimdiff run Neovim (macOS ships its own
+    # Vim in /usr/bin)
     defaultEditor = true;
     viAlias = true;
     vimAlias = true;
+    vimdiffAlias = true;
 
     # Plugins come from nixpkgs (pinned by flake.lock), no plugin manager
     plugins = with pkgs.vimPlugins; [
@@ -73,4 +76,7 @@
   };
 
   xdg.configFile."nvim/lua".source = ./lua;
+
+  # view (read-only) isn't covered by the options above
+  home.shellAliases.view = "nvim -R";
 }

@@ -3,6 +3,8 @@
   programs.kitty = {
     enable = lib.mkDefault true;
     themeFile = "Catppuccin-Mocha";
+    # zsh sets the cursor shape for vi mode itself (see zsh.nix)
+    shellIntegration.mode = "no-rc no-cursor";
     settings = {
       # Atkinson Hyperlegible Mono (installed in modules/macos, designed for
       # low vision). Medium weight: slightly thicker strokes hold up better when blurry
