@@ -166,6 +166,8 @@ in
 
         # Sites: go to the Safari tab if it's open, otherwise open a new one
         alt-shift-x = site "://x.com" "https://x.com";
+        alt-shift-y = site "youtube.com" "https://www.youtube.com";
+        alt-shift-i = site "://github.com" "https://github.com";
       }
       // lib.listToAttrs (
         lib.concatMap (ws: [
@@ -194,4 +196,11 @@ in
       };
     };
   };
+
+  # AeroSpace doesn't watch its config file: reload it after each switch
+  home.activation.reloadAerospace = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+    if /usr/bin/pgrep -qx AeroSpace; then
+      run ${config.programs.aerospace.package}/bin/aerospace reload-config || true
+    fi
+  '';
 }

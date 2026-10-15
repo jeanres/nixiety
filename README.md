@@ -271,6 +271,8 @@ Apps open, or focus (jumping to their workspace) if already running.
 | `alt-shift-n`       | Neovim in kitty             |
 | `alt-shift-a`       | Posting (HTTP API TUI)      |
 | `alt-shift-x`       | x.com (existing tab or new) |
+| `alt-shift-y`       | YouTube                     |
+| `alt-shift-i`       | GitHub                      |
 | `alt-shift-b`       | Safari                      |
 | `alt-shift-s`       | Slack                       |
 | `alt-shift-g`       | Messages                    |
