@@ -11,7 +11,7 @@
     fi
   '';
 
-  # Screenshots are saved here (see modules/macos)
+  # Screenshots are saved here (see darwin/macos)
   home.activation.screenshotsDir = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
     run mkdir -p "$HOME/Pictures/Screenshots"
   '';

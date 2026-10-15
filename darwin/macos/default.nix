@@ -31,6 +31,11 @@
     screencapture.location = "/Users/${config.system.primaryUser}/Pictures/Screenshots";
   };
 
+  system.keyboard = {
+    enableKeyMapping = true;
+    remapCapsLockToEscape = true;
+  };
+
   # Installed system-wide in /Library/Fonts/Nix Fonts; macOS doesn't pick up
   # fonts Home Manager copies into ~/Library/Fonts/HomeManager.
   # Atkinson Hyperlegible Mono is designed for low vision (used by kitty).

@@ -31,12 +31,13 @@
           inherit system;
           modules = [
             ./hosts/${host}
-            ./modules/nix
-            ./modules/homebrew
-            ./modules/macos
+            ./darwin/nix
+            ./darwin/homebrew
+            ./darwin/macos
             {
               system.primaryUser = user;
               users.users.${user}.home = "/Users/${user}";
+              system.stateVersion = 5;
             }
             home-manager.darwinModules.home-manager
             {

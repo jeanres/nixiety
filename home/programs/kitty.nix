@@ -6,7 +6,7 @@
     # zsh sets the cursor shape for vi mode itself (see zsh.nix)
     shellIntegration.mode = "no-rc no-cursor";
     settings = {
-      # Atkinson Hyperlegible Mono (installed in modules/macos, designed for
+      # Atkinson Hyperlegible Mono (installed in darwin/macos, designed for
       # low vision). Medium weight: slightly thicker strokes hold up better when blurry
       # Fonts are picked by PostScript name: by family, kitty picks the
       # variable font and ends up with ExtraLight.

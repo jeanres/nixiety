@@ -6,7 +6,7 @@
     localHostName = "latte"; # Bonjour: latte.local
   };
 
-  # Added to the shared casks in modules/homebrew
+  # Added to the shared casks in darwin/homebrew
   homebrew.casks = [
   ];
 }

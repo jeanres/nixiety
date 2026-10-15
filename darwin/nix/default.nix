@@ -22,14 +22,8 @@
     channel.enable = false;
   };
 
-  programs.zsh.enable = true;
-
-  system.keyboard = {
-    enableKeyMapping = true;
-    remapCapsLockToEscape = true;
-  };
-
   nixpkgs.config.allowUnfree = true;
 
-  system.stateVersion = 5;
+  # Writes /etc/zshrc, which loads the Nix environment (PATH etc.) for zsh
+  programs.zsh.enable = true;
 }

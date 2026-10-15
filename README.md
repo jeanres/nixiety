@@ -57,11 +57,11 @@ Makefile              install / switch / update shortcuts
 hosts/                one folder per Mac: its name and anything only it needs
 ├── mocha/            personal: default.nix (system, extra casks), home.nix (Home Manager)
 └── latte/            work: same
-modules/              shared by every host
-├── nix/              Nix (Lix), GC, store optimisation, caps lock to escape
+darwin/               nix-darwin (the whole Mac), shared by every host
+├── nix/              Nix (Lix), GC, store optimisation
 ├── homebrew/         Homebrew casks and Mac App Store apps
-└── macos/            macOS settings (Dock, Spaces, keyboard, Finder, ...)
-home/                 Home Manager, laid out like its own modules
+└── macos/            macOS settings (Dock, Spaces, keyboard, caps lock to escape, Finder, fonts, ...)
+home/                 Home Manager (your user), shared by every host, laid out like its own modules
 ├── default.nix       imports the three folders below
 ├── programs/         programs.* (one file per program)
 │                     ├── default.nix        imports every program
@@ -94,7 +94,7 @@ scripts/              helper scripts used by the config
 
 To add a program: create `home/programs/<name>.nix` and add it to `home/programs/default.nix` (a background service goes in `home/services/` the same way).
 
-To add a GUI app: add its cask to `modules/homebrew/default.nix` (or its App Store ID to `masApps`). For one Mac only, add it to `homebrew.casks` in `hosts/<host>/default.nix` instead; the lists are merged.
+To add a GUI app: add its cask to `darwin/homebrew/default.nix` (or its App Store ID to `masApps`). For one Mac only, add it to `homebrew.casks` in `hosts/<host>/default.nix` instead; the lists are merged.
 
 ### Per host
 
@@ -230,7 +230,7 @@ Set in `home/programs/git.nix`.
 
 ## macOS settings
 
-Set in `modules/macos` (nix-darwin writes them one key at a time, so nothing else in those domains is touched). Some need a log out and back in.
+Set in `darwin/macos` (nix-darwin writes them one key at a time, so nothing else in those domains is touched). Some need a log out and back in.
 
 - Spaces: "Displays have separate Spaces" off, and Mission Control groups windows by app (both recommended by AeroSpace)
 - Dock auto-hides
