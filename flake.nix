@@ -22,33 +22,45 @@
     }:
     let
       system = "aarch64-darwin";
-      host = "Jeanres-MacBook-Pro";
-      user = "jeanreswanepoel";
+
+      # Shared modules plus ./hosts/<host> (default.nix for the system,
+      # home.nix for Home Manager)
+      mkHost =
+        host: user:
+        nix-darwin.lib.darwinSystem {
+          inherit system;
+          modules = [
+            ./hosts/${host}
+            ./modules/nix
+            ./modules/homebrew
+            ./modules/macos
+            {
+              system.primaryUser = user;
+              users.users.${user}.home = "/Users/${user}";
+            }
+            home-manager.darwinModules.home-manager
+            {
+              home-manager = {
+                useGlobalPkgs = true;
+                useUserPackages = true;
+                users.${user} = {
+                  imports = [
+                    ./home
+                    ./hosts/${host}/home.nix
+                  ];
+                  home.stateVersion = "26.11";
+                };
+              };
+            }
+          ];
+        };
     in
     {
-      # darwin-rebuild switch --flake .#Jeanres-MacBook-Pro (or: make switch)
-      darwinConfigurations.${host} = nix-darwin.lib.darwinSystem {
-        inherit system;
-        modules = [
-          ./hosts/macbook-pro
-          ./modules/homebrew
-          ./modules/macos
-          {
-            system.primaryUser = user;
-            users.users.${user}.home = "/Users/${user}";
-          }
-          home-manager.darwinModules.home-manager
-          {
-            home-manager = {
-              useGlobalPkgs = true;
-              useUserPackages = true;
-              users.${user} = {
-                imports = [ ./home ];
-                home.stateVersion = "26.11";
-              };
-            };
-          }
-        ];
+      # darwin-rebuild switch --flake .#<host> (or: make switch)
+      darwinConfigurations = {
+        mocha = mkHost "mocha" "jeanreswanepoel"; # personal
+        # Work Mac. Change the user if the work account is named differently
+        latte = mkHost "latte" "jeanreswanepoel";
       };
 
       # nix fmt: format every .nix file with nixfmt

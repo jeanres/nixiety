@@ -12,11 +12,9 @@
     brews = [
     ];
 
+    # Every Mac gets these; a host adds its own in hosts/<host>
     casks = [
-      "bambu-studio"
       "slack"
-      "whatsapp"
-      "raspberry-pi-imager"
     ];
 
     # Mac App Store apps (installed via mas; you must be signed in to the App Store)

@@ -1,4 +1,4 @@
-{ config, ... }:
+{ config, lib, ... }:
 let
   email = "jeanres@icloud.com";
   # Public key used to sign commits (safe to commit; it's the .pub half)
@@ -6,7 +6,7 @@ let
 in
 {
   programs.git = {
-    enable = true;
+    enable = lib.mkDefault true;
 
     settings = {
       user = {

@@ -1,4 +1,6 @@
-HOST := Jeanres-MacBook-Pro
+# This Mac's name (mocha or latte). On a fresh Mac, which still has the
+# default name, pass it: make install HOST=latte
+HOST ?= $(shell scutil --get LocalHostName)
 FLAKE := .\#$(HOST)
 
 .PHONY: help install build switch update check gc

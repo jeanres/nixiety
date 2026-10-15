@@ -1,8 +1,8 @@
-{ ... }:
+{ lib, ... }:
 {
   # --cmd cd makes `cd` use zoxide (and adds `cdi` for interactive picking)
   programs.zoxide = {
-    enable = true;
+    enable = lib.mkDefault true;
     options = [ "--cmd cd" ];
   };
 }

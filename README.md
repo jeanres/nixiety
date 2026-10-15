@@ -2,7 +2,14 @@
 
 [![check](https://github.com/jeanres/nixiety/actions/workflows/check.yml/badge.svg)](https://github.com/jeanres/nixiety/actions/workflows/check.yml)
 
-macOS setup for `Jeanres-MacBook-Pro`, managed with [nix-darwin](https://github.com/nix-darwin/nix-darwin), [Home Manager](https://github.com/nix-community/home-manager) and [Lix](https://lix.systems).
+macOS setup for my Macs, managed with [nix-darwin](https://github.com/nix-darwin/nix-darwin), [Home Manager](https://github.com/nix-community/home-manager) and [Lix](https://lix.systems).
+
+| Host    | Machine              |
+| ------- | -------------------- |
+| `mocha` | Personal MacBook Pro |
+| `latte` | Work MacBook         |
+
+Names are [Catppuccin](https://catppuccin.com) flavours; `frappe` and `macchiato` are free for the next ones.
 
 ## Getting started
 
@@ -11,8 +18,10 @@ On a fresh Mac:
 ```sh
 git clone https://github.com/jeanres/nixiety.git ~/.nixiety
 cd ~/.nixiety
-make install
+make install HOST=latte   # or mocha
 ```
+
+`HOST` is only needed the first time: the switch renames the Mac, and from then on `make` reads the name from the system.
 
 `make install` skips anything already present and:
 
@@ -38,16 +47,18 @@ After that, sign in to the App Store so Mac App Store apps can install.
 
 `make build` and `make switch` use [nh](https://github.com/nix-community/nh), which shows build progress and a diff of changed packages; before nh is installed they fall back to `darwin-rebuild`.
 
-CI (`.github/workflows/check.yml`) runs on every push and PR to `main`: `nix fmt -- --ci`, `nix flake check`, and a full build of the system on an Apple Silicon runner. Run `nix fmt` before pushing.
+CI (`.github/workflows/check.yml`) runs on every push and PR to `main`: `nix fmt -- --ci`, `nix flake check`, and a full build of each host on an Apple Silicon runner. Run `nix fmt` before pushing.
 
 ## Layout
 
 ```
-flake.nix             entry point: inputs and the darwin configuration
+flake.nix             entry point: inputs and one darwin configuration per host
 Makefile              install / switch / update shortcuts
-hosts/
-└── macbook-pro/      Nix (Lix), GC, store optimisation, caps lock to escape
-modules/
+hosts/                one folder per Mac: its name and anything only it needs
+├── mocha/            personal: default.nix (system, extra casks), home.nix (Home Manager)
+└── latte/            work: same
+modules/              shared by every host
+├── nix/              Nix (Lix), GC, store optimisation, caps lock to escape
 ├── homebrew/         Homebrew casks and Mac App Store apps
 └── macos/            macOS settings (Dock, Spaces, keyboard, Finder, ...)
 home/                 Home Manager, laid out like its own modules
@@ -83,7 +94,22 @@ scripts/              helper scripts used by the config
 
 To add a program: create `home/programs/<name>.nix` and add it to `home/programs/default.nix` (a background service goes in `home/services/` the same way).
 
-To add a GUI app: add its cask to `modules/homebrew/default.nix` (or its App Store ID to `masApps`).
+To add a GUI app: add its cask to `modules/homebrew/default.nix` (or its App Store ID to `masApps`). For one Mac only, add it to `homebrew.casks` in `hosts/<host>/default.nix` instead; the lists are merged.
+
+### Per host
+
+Every program in `home/programs/` is on for every Mac (`enable = lib.mkDefault true`). To change that for one Mac, set it in `hosts/<host>/home.nix`:
+
+```nix
+{ ... }:
+{
+  programs.posting.enable = false; # not on this Mac
+}
+```
+
+For a program only one Mac should have, leave `enable` out of its file in `home/programs/` (so it's off by default) and set `programs.<name>.enable = true` in that host's `home.nix`.
+
+To add a Mac: create `hosts/<name>/default.nix` (its `networking` names) and `hosts/<name>/home.nix`, then add a line for it under `darwinConfigurations` in `flake.nix`.
 
 ## Shell
 

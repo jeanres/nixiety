@@ -1,7 +1,7 @@
-{ ... }:
+{ lib, ... }:
 {
   programs.tmux = {
-    enable = true;
+    enable = lib.mkDefault true;
     # Plugins come from TPM (below), not Nix
     sensibleOnTop = false;
     terminal = "tmux-256color";

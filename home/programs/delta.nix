@@ -1,7 +1,7 @@
-{ ... }:
+{ lib, ... }:
 {
   programs.delta = {
-    enable = true;
+    enable = lib.mkDefault true;
     enableGitIntegration = true;
   };
 }

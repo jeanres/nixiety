@@ -1,6 +1,6 @@
-{ ... }:
+{ lib, ... }:
 {
   programs.claude-code = {
-    enable = true;
+    enable = lib.mkDefault true;
   };
 }

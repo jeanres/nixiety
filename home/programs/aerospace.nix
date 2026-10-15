@@ -89,7 +89,7 @@ let
 in
 {
   programs.aerospace = {
-    enable = true;
+    enable = lib.mkDefault true;
     settings = {
       enable-normalization-flatten-containers = true;
       enable-normalization-opposite-orientation-for-nested-containers = true;

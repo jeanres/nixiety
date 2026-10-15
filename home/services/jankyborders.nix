@@ -1,7 +1,7 @@
-{ ... }:
+{ lib, ... }:
 {
   services.jankyborders = {
-    enable = true;
+    enable = lib.mkDefault true;
     settings = {
       style = "round";
       width = 6.0;

@@ -1,6 +1,6 @@
-{ ... }:
+{ lib, ... }:
 {
   programs.ripgrep = {
-    enable = true;
+    enable = lib.mkDefault true;
   };
 }

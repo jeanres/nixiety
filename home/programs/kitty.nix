@@ -1,7 +1,7 @@
-{ ... }:
+{ lib, ... }:
 {
   programs.kitty = {
-    enable = true;
+    enable = lib.mkDefault true;
     themeFile = "Catppuccin-Mocha";
     settings = {
       # Atkinson Hyperlegible Mono (installed in modules/macos, designed for
