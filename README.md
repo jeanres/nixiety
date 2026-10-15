@@ -33,7 +33,10 @@ After that, sign in to the App Store so Mac App Store apps can install.
 | `make check`   | Run `nix flake check`                          |
 | `make gc`      | Delete generations older than 30 days          |
 | `nix fmt`      | Format every `.nix` file with nixfmt           |
+| `nh darwin switch` | Same as `make switch`, from any directory  |
 | `make`         | List targets                                   |
+
+`make build` and `make switch` use [nh](https://github.com/nix-community/nh), which shows build progress and a diff of changed packages; before nh is installed they fall back to `darwin-rebuild`.
 
 CI (`.github/workflows/check.yml`) runs on every push and PR to `main`: `nix fmt -- --ci`, `nix flake check`, and a full build of the system on an Apple Silicon runner. Run `nix fmt` before pushing.
 
@@ -52,10 +55,13 @@ home/                 Home Manager, laid out like its own modules
 ├── programs/         programs.* (one file per program)
 │                     ├── default.nix        imports every program
 │                     ├── aerospace.nix      tiling window manager, workspaces, keybindings
-│                     ├── wezterm.nix        terminal
+│                     ├── kitty.nix          terminal
 │                     ├── zsh.nix            shell, plugins, Homebrew on PATH
 │                     ├── starship.nix       prompt
+│                     ├── tmux.nix           multiplexer (plugins via TPM)
 │                     ├── neovim/            editor: default.nix + lua/config/*.lua
+│                     ├── nh.nix             nicer darwin-rebuild (used by make)
+│                     ├── posting.nix        TUI for HTTP APIs
 │                     ├── git.nix            identity, defaults, signing, global ignore
 │                     ├── delta.nix          git diff pager
 │                     ├── lazygit.nix        git TUI
@@ -84,10 +90,45 @@ To add a GUI app: add its cask to `modules/homebrew/default.nix` (or its App Sto
 - zsh has autosuggestions (→ to accept) and syntax highlighting
 - Homebrew is on `PATH` via `~/.zprofile`
 - direnv uses nix-direnv, so `use flake` environments are cached
+- `posting` is a TUI for HTTP APIs (`alt-shift-a`); `posting --collection <dir>` opens a project's saved requests
+
+## kitty
+
+| Action | How |
+| --- | --- |
+| Copy | select with the mouse (copies automatically), or `Cmd C` |
+| Paste | right click, or `Cmd V` |
+| Select inside tmux/Neovim | hold `Shift` while dragging |
+| Copy a URL, path or hash | `Cmd Shift Space`, then type its letter label |
+| Keyboard selection | tmux copy mode (`prefix [`) |
+| Open a link | `Cmd` click |
+
+Font: Atkinson Hyperlegible Mono, Medium, 15pt (designed for low vision; icons come from kitty's built-in Nerd Font symbols).
+
+Cursor: a peach block that fades in and out and leaves a trail when it jumps; lavender selection; slightly taller lines; padding around the edges.
+
+## tmux
+
+Plugins are managed by [TPM](https://github.com/tmux-plugins/tpm), not Nix. On the first start tmux clones TPM into `~/.config/tmux/plugins/` and installs the plugins (Catppuccin Mocha). Add a plugin with `set -g @plugin '...'` in `home/programs/tmux.nix`, run `make switch`, then press `prefix I` in tmux.
+
+| Key | Action |
+| --- | --- |
+| `C-b` | prefix |
+| `prefix \|` / `prefix -` | split side by side / top and bottom (current dir) |
+| `prefix h/j/k/l` | move between panes |
+| `prefix c` | new window (current dir) |
+| `prefix [` | copy mode: `v` select, `C-v` block, `y` copy to the macOS clipboard |
+| `prefix p` | paste |
+| `prefix r` | reload config |
+| `prefix I` / `prefix U` | install / update plugins |
+
+Windows start at 1, the mouse works, copy mode uses vi keys, and Esc has no delay.
 
 ## Neovim
 
 Config lives in `home/programs/neovim/` (`lua/config/*.lua`); plugins and language servers come from Nix. Tools a project provides through direnv (node, eslint, prettier, biome) take precedence over the Nix fallbacks. Files are formatted on save: biome if the project has a `biome.json`, otherwise prettierd; nixfmt for Nix, stylua for Lua.
+
+The cursor is always a block (blinking in insert mode). The current line and its number are highlighted.
 
 nixd reads this repo's flake, so editing it completes nix-darwin and Home Manager options as well as packages.
 
@@ -175,7 +216,8 @@ Avoid Home Manager's `targets.darwin.defaults` for these: it imports a whole dom
 
 Catppuccin Mocha, set by hand per app:
 
-- WezTerm: built-in `Catppuccin Mocha` scheme, no title bar, no tab bar
+- kitty: built-in `Catppuccin-Mocha` theme, no title bar, no tab bar
+- tmux: `catppuccin/tmux` plugin (mocha, rounded windows) via TPM
 - JankyBorders: mauve (`0xffcba6f7`) active, surface1 (`0xff45475a`) inactive
 
 ## AeroSpace
@@ -184,7 +226,7 @@ Windows tile top to bottom by default (set for the LG DualUp). Each workspace ho
 
 | #   | Workspace        | Apps                                          |
 | --- | ---------------- | --------------------------------------------- |
-| 1   | Terminal / code  | WezTerm, Terminal                             |
+| 1   | Terminal / code  | kitty, Terminal                               |
 | 2   | Browser          | Safari                                        |
 | 3   | Chat             | Slack, Messages, FaceTime                     |
 | 4   | Mail & calendar  | Mail, Calendar, Reminders, Contacts           |
@@ -223,8 +265,10 @@ Apps open, or focus (jumping to their workspace) if already running.
 
 | Key                 | Opens                       |
 | ------------------- | --------------------------- |
-| `alt-enter`         | New WezTerm window          |
-| `alt-shift-n`       | Neovim in WezTerm           |
+| `alt-enter`         | New kitty window            |
+| `alt-shift-n`       | Neovim in kitty             |
+| `alt-shift-a`       | Posting (HTTP API TUI)      |
+| `alt-shift-x`       | x.com in Safari             |
 | `alt-shift-b`       | Safari                      |
 | `alt-shift-s`       | Slack                       |
 | `alt-shift-g`       | Messages                    |

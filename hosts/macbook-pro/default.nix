@@ -17,6 +17,9 @@
     };
     # Deduplicate identical files in the store
     optimise.automatic = true;
+    # Flakes only: no channels, so NIX_PATH has no channels entry (nixpkgs
+    # still resolves to this flake's nixpkgs via the registry)
+    channel.enable = false;
   };
 
   programs.zsh.enable = true;

@@ -1,7 +1,8 @@
 { lib, config, ... }:
 let
-  wezterm = "${config.programs.wezterm.package}/bin/wezterm";
+  kitty = "${config.programs.kitty.package}/bin/kitty --single-instance --directory ~";
   nvim = "${config.programs.neovim.finalPackage}/bin/nvim";
+  posting = "${config.programs.posting.package}/bin/posting";
 
   # Launch an app by bundle ID, or focus it (and jump to its workspace) if running
   app = id: "exec-and-forget open -b ${id}";
@@ -11,7 +12,7 @@ let
   workspaceApps = {
     # 1: Terminal (also where coding happens)
     "1" = [
-      "com.github.wez.wezterm"
+      "net.kovidgoyal.kitty"
       "com.apple.Terminal"
     ];
     # 2: Browser
@@ -142,8 +143,9 @@ in
         alt-shift-r = "flatten-workspace-tree";
 
         # Terminal and editor (new window each time)
-        alt-enter = "exec-and-forget ${wezterm} start";
-        alt-shift-n = "exec-and-forget ${wezterm} start -- ${nvim}";
+        alt-enter = "exec-and-forget ${kitty}";
+        alt-shift-n = "exec-and-forget ${kitty} ${nvim}";
+        alt-shift-a = "exec-and-forget ${kitty} ${posting}";
 
         # Apps: launch or focus
         alt-shift-b = app "com.apple.Safari";
@@ -157,6 +159,9 @@ in
         alt-shift-comma = app "com.apple.systempreferences";
         alt-shift-slash = app "com.apple.Passwords";
         alt-shift-f = "exec-and-forget open ~";
+
+        # Sites (open in Safari)
+        alt-shift-x = "exec-and-forget open -a Safari https://x.com";
       }
       // lib.listToAttrs (
         lib.concatMap (ws: [

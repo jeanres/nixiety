@@ -1,4 +1,4 @@
-{ config, ... }:
+{ config, pkgs, ... }:
 {
   # macOS settings. nix-darwin writes these one key at a time, so other
   # settings in the same domain (e.g. pinned Dock apps) are left alone.
@@ -30,4 +30,9 @@
 
     screencapture.location = "/Users/${config.system.primaryUser}/Pictures/Screenshots";
   };
+
+  # Installed system-wide in /Library/Fonts/Nix Fonts; macOS doesn't pick up
+  # fonts Home Manager copies into ~/Library/Fonts/HomeManager.
+  # Atkinson Hyperlegible Mono is designed for low vision (used by kitty).
+  fonts.packages = [ pkgs.atkinson-hyperlegible-mono ];
 }

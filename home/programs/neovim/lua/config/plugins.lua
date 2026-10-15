@@ -10,11 +10,30 @@ require("catppuccin").setup({
     snacks = { enabled = true },
     telescope = { enabled = true },
   },
+  -- Make the cursor line and selection easier to see
+  custom_highlights = function(colors)
+    return {
+      CursorLine = { bg = colors.surface0 },
+      CursorLineNr = { fg = colors.peach, style = { "bold" } },
+      Visual = { bg = colors.surface2, style = { "bold" } },
+    }
+  end,
 })
 vim.cmd.colorscheme("catppuccin")
 
+
 require("lualine").setup({
-  options = { theme = "catppuccin-nvim", globalstatus = true },
+  options = {
+    theme = "catppuccin-nvim",
+    globalstatus = true,
+    -- Rounded pills, like the tmux Catppuccin status line
+    section_separators = { left = "\u{e0b4}", right = "\u{e0b6}" },
+    component_separators = "",
+  },
+  sections = {
+    lualine_a = { { "mode", separator = { left = "\u{e0b6}" }, right_padding = 2 } },
+    lualine_z = { { "location", separator = { right = "\u{e0b4}" }, left_padding = 2 } },
+  },
 })
 
 -- Telescope

@@ -4,6 +4,8 @@ opt.number = true
 opt.relativenumber = true
 opt.signcolumn = "yes"
 opt.cursorline = true
+-- Always a block cursor (a thin bar is hard to see); it blinks in insert mode
+opt.guicursor = "n-v-c-sm:block,i-ci-ve:block-blinkwait300-blinkon500-blinkoff400,r-cr-o:hor50"
 opt.scrolloff = 8
 opt.wrap = false
 
@@ -26,6 +28,7 @@ opt.updatetime = 250
 opt.timeoutlen = 400
 opt.mouse = "a"
 opt.termguicolors = true
+opt.cmdheight = 0 -- hide the command line until it is used
 opt.completeopt = { "menu", "menuone", "noselect" }
 
 -- Briefly highlight yanked text

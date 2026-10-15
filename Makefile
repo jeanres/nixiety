@@ -17,11 +17,23 @@ install: ## Fresh Mac: install CLT, Lix, Homebrew, then nix-darwin
 	sudo $(NIX) --extra-experimental-features "nix-command flakes" \
 		run nix-darwin/master#darwin-rebuild -- switch --flake $(FLAKE)
 
+# nh shows build progress and a package diff; darwin-rebuild is the fallback
+# before nh is installed
+HAS_NH := $(shell command -v nh 2>/dev/null)
+
 build: ## Build the system without activating it
+ifdef HAS_NH
+	nh darwin build . -H $(HOST)
+else
 	darwin-rebuild build --flake $(FLAKE)
+endif
 
 switch: ## Build and activate the system
+ifdef HAS_NH
+	nh darwin switch . -H $(HOST)
+else
 	sudo darwin-rebuild switch --flake $(FLAKE)
+endif
 
 update: ## Update flake inputs, then switch
 	nix flake update

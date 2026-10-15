@@ -11,11 +11,14 @@
     ./fzf.nix
     ./git.nix
     ./jq.nix
+    ./kitty.nix
     ./lazygit.nix
     ./neovim
+    ./nh.nix
+    ./posting.nix
     ./ripgrep.nix
     ./starship.nix
-    ./wezterm.nix
+    ./tmux.nix
     ./zoxide.nix
     ./zsh.nix
   ];
