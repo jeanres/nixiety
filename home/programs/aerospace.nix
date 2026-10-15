@@ -7,6 +7,10 @@ let
   # Launch an app by bundle ID, or focus it (and jump to its workspace) if running
   app = id: "exec-and-forget open -b ${id}";
 
+  # Go to the Safari tab whose URL contains `match`, or open `url` in a new tab
+  site =
+    match: url: "exec-and-forget osascript ${../../scripts/safari-tab.applescript} '${match}' '${url}'";
+
   # One kind of app per workspace. Workspace => list of bundle IDs.
   # Find an app's bundle ID with: osascript -e 'id of app "AppName"'
   workspaceApps = {
@@ -160,8 +164,8 @@ in
         alt-shift-slash = app "com.apple.Passwords";
         alt-shift-f = "exec-and-forget open ~";
 
-        # Sites (open in Safari)
-        alt-shift-x = "exec-and-forget open -a Safari https://x.com";
+        # Sites: go to the Safari tab if it's open, otherwise open a new one
+        alt-shift-x = site "://x.com" "https://x.com";
       }
       // lib.listToAttrs (
         lib.concatMap (ws: [

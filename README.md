@@ -77,6 +77,8 @@ home/                 Home Manager, laid out like its own modules
 ├── services/         services.*
 │                     └── jankyborders.nix   window borders
 └── targets/darwin/   macOS-only: desktop stacks, screenshots folder
+scripts/              helper scripts used by the config
+└── safari-tab.applescript   go to an open Safari tab or open a new one
 ```
 
 To add a program: create `home/programs/<name>.nix` and add it to `home/programs/default.nix` (a background service goes in `home/services/` the same way).
@@ -268,7 +270,7 @@ Apps open, or focus (jumping to their workspace) if already running.
 | `alt-enter`         | New kitty window            |
 | `alt-shift-n`       | Neovim in kitty             |
 | `alt-shift-a`       | Posting (HTTP API TUI)      |
-| `alt-shift-x`       | x.com in Safari             |
+| `alt-shift-x`       | x.com (existing tab or new) |
 | `alt-shift-b`       | Safari                      |
 | `alt-shift-s`       | Slack                       |
 | `alt-shift-g`       | Messages                    |
