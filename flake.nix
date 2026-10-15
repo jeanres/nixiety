@@ -47,6 +47,7 @@
                 users.${user} = {
                   imports = [
                     ./home
+                    ./targets/darwin
                     ./hosts/${host}/home.nix
                   ];
                   home.stateVersion = "26.11";

@@ -62,7 +62,7 @@ darwin/               nix-darwin (the whole Mac), shared by every host
 ├── homebrew/         Homebrew casks and Mac App Store apps
 └── macos/            macOS settings (Dock, Spaces, keyboard, caps lock to escape, Finder, fonts, ...)
 home/                 Home Manager (your user), shared by every host, laid out like its own modules
-├── default.nix       imports the three folders below
+├── default.nix       imports the two folders below
 ├── programs/         programs.* (one file per program)
 │                     ├── default.nix        imports every program
 │                     ├── aerospace.nix      tiling window manager, workspaces, keybindings
@@ -85,9 +85,10 @@ home/                 Home Manager (your user), shared by every host, laid out l
 │                     ├── zoxide.nix         cd replacement
 │                     ├── direnv.nix         per-directory environments (nix-direnv)
 │                     └── claude-code.nix    Claude Code
-├── services/         services.*
-│                     └── jankyborders.nix   window borders
-└── targets/darwin/   macOS-only: desktop stacks, screenshots folder
+└── services/         services.*
+                      └── jankyborders.nix   window borders
+targets/
+└── darwin/           Home Manager, macOS-only: desktop stacks, screenshots folder
 scripts/              helper scripts used by the config
 └── safari-tab.applescript   go to an open Safari tab or open a new one
 ```
@@ -238,7 +239,7 @@ Set in `darwin/macos` (nix-darwin writes them one key at a time, so nothing else
 - Tap to click
 - Finder shows hidden files, all extensions and the path bar
 - Screenshots go to `~/Pictures/Screenshots`
-- Desktop uses Stacks (set from `home/targets/darwin`)
+- Desktop uses Stacks (set from `targets/darwin`)
 
 Avoid Home Manager's `targets.darwin.defaults` for these: it imports a whole domain at once, which wipes any keys you didn't list (e.g. pinned Dock apps).
 
