@@ -23,17 +23,15 @@
     let
       system = "aarch64-darwin";
 
-      # Shared modules plus ./hosts/<host> (default.nix for the system,
-      # home.nix for Home Manager)
+      # Shared modules plus ./hosts/<host>. Throughout, default.nix is
+      # nix-darwin and home.nix is Home Manager
       mkHost =
         host: user:
         nix-darwin.lib.darwinSystem {
           inherit system;
           modules = [
             ./hosts/${host}
-            ./darwin/nix
-            ./darwin/homebrew
-            ./darwin/macos
+            ./targets/darwin
             {
               system.primaryUser = user;
               users.users.${user}.home = "/Users/${user}";
@@ -47,7 +45,7 @@
                 users.${user} = {
                   imports = [
                     ./home
-                    ./targets/darwin
+                    ./targets/darwin/macos/home.nix
                     ./hosts/${host}/home.nix
                   ];
                   home.stateVersion = "26.11";

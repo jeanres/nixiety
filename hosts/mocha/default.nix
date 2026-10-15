@@ -6,7 +6,7 @@
     localHostName = "mocha"; # Bonjour: mocha.local
   };
 
-  # Added to the shared casks in darwin/homebrew
+  # Added to the shared casks in targets/darwin/homebrew
   homebrew.casks = [
     "bambu-studio"
     "raspberry-pi-imager"
